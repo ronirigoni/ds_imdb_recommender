@@ -1,5 +1,8 @@
 # Imdb Recommender
 
+Try this project online: [Google Colab - Imdb Recommender](https://colab.research.google.com/drive/1B0EesADaincHmiTIAkJ60LV3RXsa4NqE?usp=sharing)
+*Teste este projeto online.*
+
 A simple project that recommend 15 similar movies (from the 1000 imdb top ranked movies) for the movie the user indicates. 
 The algorithm compares the genres, director and the movie synopsis, and return the most similar based on Cosine Similarity.
 
