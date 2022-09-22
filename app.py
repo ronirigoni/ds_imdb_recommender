@@ -32,6 +32,8 @@ def home():
 
     movie_name_given_by_user = request.get('movie')
     
+    return "Movie: " + movie_name_given_by_user
+    
     search_url = 'https://www.imdb.com/find'
     payload = {'q': movie_name_given_by_user}
     soup_search = BeautifulSoup(requests.get(search_url, params=payload).text, 'html.parser')
