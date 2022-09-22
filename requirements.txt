@@ -1,0 +1,7 @@
+numpy==1.22.0
+pandas==1.4.2
+scikit-learn==1.0.2
+regex==2022.8.17
+nltk==3.7
+requests==2.27.1
+bs4==0.0.1
