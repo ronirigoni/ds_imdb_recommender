@@ -36,12 +36,9 @@ if __name__ == "__main__":
 @app.route("/", methods=['GET'])
 def home():
 
-    if request.method == 'POST':
-        return json.dump({"erro": "Método POST não suportado"})
-
     movie_name_given_by_user = request.args.get('movie')
     if movie_name_given_by_user == None:
-        return json.dump({"erro": "Nome do filme não informado."})
+        return json.dumps({"erro": "Nome do filme não informado."}, indent = 4)
     
     search_url = 'https://www.imdb.com/find'
     payload = {'q': movie_name_given_by_user}
