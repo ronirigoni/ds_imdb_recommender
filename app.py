@@ -116,4 +116,4 @@ def home():
     top_15_sim = df.iloc[top_15_indexes].drop(['combined_features'], axis=1)
     top_15_sim['similarity'] = top_15_scores
     
-    return top_15_sim.to_string()
+    return top_15_sim.to_json(orient="index")
