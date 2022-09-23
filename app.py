@@ -8,6 +8,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import requests
 from bs4 import BeautifulSoup
+import json
 
 ### Function that tokenize and stem a text
 def tokenize_and_stem(text):
@@ -32,14 +33,15 @@ app = Flask(__name__)
 if __name__ == "__main__":
     app.run(debug=True)
 
-@app.route("/", methods=['POST', 'GET'])
+@app.route("/", methods=['GET'])
 def home():
+
+    if request.method == 'POST':
+        return json.dump({"erro": "Método POST não suportado"})
 
     movie_name_given_by_user = request.args.get('movie')
     if movie_name_given_by_user == None:
-        return "Nome do filme não informado."
-    
-    #return "Movie: " + movie_name_given_by_user
+        return json.dump({"erro": "Nome do filme não informado."})
     
     search_url = 'https://www.imdb.com/find'
     payload = {'q': movie_name_given_by_user}
