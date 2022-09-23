@@ -46,13 +46,38 @@
 		</div>
 		
 		<div class="row" v-show="mostrar_resultado">
-			<div class="col-sm-12 col-lg-6" style="margin-top:25px;">
+			<div class="col-sm-12" style="margin-top:25px;">
 				<h4 id="aguarde"></h4>
-				<ul>
-				  <li v-for="(index, row) in json_retornado">
+				<!--ul>
+				  <li v-for="(obj, key) in json_retornado">
 					{{ index }} {{ row }}
 				  </li>
-				</ul>
+				</ul-->
+				
+				<table class="table">
+				  <thead>
+					<tr>
+					  <th scope="col">#Rank</th>
+					  <th scope="col">Título</th>
+					  <th scope="col">ano</th>
+					  <th scope="col">Nota</th>
+					  <th scope="col">Diretor</th>
+					  <th scope="col">Gêneros</th>
+					  <th scope="col">Similaridade</th>
+					</tr>
+				  </thead>
+				  <tbody>
+					<tr v-for="(movie,pos) in json_retornado">
+					  <th scope="row">{{ pos }}</th>
+					  <td><a :href="'https://www.imdb.com/title/' + movie.imdb_id" target="_blank">{{ movie.title }}</a></td>
+					  <td>{{ movie.year }}</td>
+					  <td>{{ movie.rate }}</td>
+					  <td>{{ movie.director }}</td>
+					  <td>{{ movie.genres }}</td>
+					  <td>{{ movie.similarity }}</td>
+					</tr>
+				  </tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -62,8 +87,7 @@
 		var vue = new Vue({
 		  el: '#app',
 		  data: {
-			json_retornado: {
-			},
+			json_retornado: {},
 			mostrar_resultado: false
 		  },
 		  methods: {
@@ -106,7 +130,8 @@
 			
 			xhr.onload  = function() {
 			   var jsonResponse = JSON.parse(xhr.responseText);
-			   vue.data.json_retornado = jsonResponse;
+			   campo_aguarde.innerHTML  = "";
+			   vue._data.json_retornado = jsonResponse;
 			};
 			
 			xhr.send(null);
