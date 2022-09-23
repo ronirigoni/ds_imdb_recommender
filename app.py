@@ -9,7 +9,12 @@ from sklearn.metrics.pairwise import cosine_similarity
 import requests
 from bs4 import BeautifulSoup
 
+### Function that tokenize and stem a text
 def tokenize_and_stem(text):
+    
+    # We need to tokenize to perform the cosine distance analisys. We also stem the text to transform the words into their root form, so # words like "run" and "running" are grouped in the same token.
+    # Create an English language SnowballStemmer object
+    stemmer_en = SnowballStemmer("english")
     
     # Tokenize by sentence, then by word
     tokens = [ word for sent in sent_tokenize(text) for word in word_tokenize(sent) ]
@@ -86,10 +91,6 @@ def home():
                         df['genres'].apply(lambda x: str.replace(x, '\'', '')) + \
                         " " + df['plot']
     
-    ### Function that tokenize and stem a text
-    # We need to tokenize to perform the cosine distance analisys. We also stem the text to transform the words into their root form, so # words like "run" and "running" are grouped in the same token.
-    # Create an English language SnowballStemmer object
-    stemmer_en = SnowballStemmer("english")
 
     # testing the function:
     # print( tokenize_and_stem("[Drama, Romance, War] At a U.S. Army base at 1945") )
