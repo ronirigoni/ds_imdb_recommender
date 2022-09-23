@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask_cors import CORS
 import numpy as np
 import pandas as pd
 import re
@@ -29,6 +30,7 @@ def tokenize_and_stem(text):
     return stems
 
 app = Flask(__name__)
+CORS(app)
 
 if __name__ == "__main__":
     app.run(debug=True)

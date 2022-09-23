@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Imdb Recommender</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+</head>
+  <body>
+	<div class="container" id="app">
+	
+		
+		<h2 style="margin:20px 0px;">Imdb Recommender (by Roni Rigoni)</h2>
+		
+		<div class="row">
+			<div class="col-sm-12 col-lg-6">
+			
+				<p>Encontre filmes semelhantes a um filme que você gosta! Neste projeto consideramos apenas os filmes 
+				que estão no top 1.000 do ranking do Imdb.</p>
+				<p>Digite o nome do filme no campo abaixo (da maneira mais correta possível) e veja o resultado!</p>
+				<p><small><i>
+				Encontre o código fonte do projeto em: <a href="https://github.com/ronirigoni/ds_imdb_recommender" target="_blank">https://github.com/ronirigoni/ds_imdb_recommender</a></i>
+				</small></p>
+			  
+			  <form id="formulario" action="#" method="post">
+				
+				<div id="filme-group" class="form-group">
+				  <label for="filme">Nome do Filme:</label>
+				  <input
+					type="text"
+					class="form-control"
+					id="filme"
+					name="filme"
+					placeholder="Ex: Coração Valente"
+					value="Coração Valente"
+					required
+				  />
+				</div>
+
+				<div id="submit-group" class="form-group" style="margin-top:15px">
+					<button id="botao-enviar" class="btn btn-success" onclick="return false;">
+					  BUSCAR SEMELHANTES
+					</button>
+				</div>
+			  </form>
+			</div>
+		</div>
+		
+		<div class="row" v-show="mostrar_resultado">
+			<div class="col-sm-12 col-lg-6" style="margin-top:25px;">
+				<h4 id="aguarde"></h4>
+				<ul>
+				  <li v-for="(index, row) in json_retornado">
+					{{ index }} {{ row }}
+				  </li>
+				</ul>
+			</div>
+		</div>
+	</div>
+  </body>
+  <script>
+  
+		var vue = new Vue({
+		  el: '#app',
+		  data: {
+			json_retornado: {
+			},
+			mostrar_resultado: false
+		  },
+		  methods: {
+			reverseMessage: function () {
+			  this.message = this.message.split('').reverse().join('')
+			}
+		  }
+		})
+
+		function envia_dados(e) {
+		
+			e.preventDefault();
+			
+			var movie = document.getElementById('filme').value;
+			
+			if( movie == '' ){
+				alert("DIGITE O NOME DE UM FILME");
+				return false;
+			}
+		
+			campo_aguarde = document.getElementById('aguarde');
+			vue._data.mostrar_resultado = true;
+			campo_aguarde.innerHTML  = "Aguarde...";
+		
+			var url = "https://ds-imdb-recommender.herokuapp.com/?movie=" + encodeURI(movie);
+			
+			var xhr = new XMLHttpRequest();
+			xhr.overrideMimeType("application/json");
+			xhr.open("GET", url, true);
+
+			/*xhr.onreadystatechange = function () {
+			   if (xhr.readyState === 4) {
+				  //console.log(xhr.status);
+				  //console.log(xhr.responseText);
+				  vue.data.json_retornado  = JSON.parse(xhr.responseText)
+			   } else {
+				  campo_aguarde.innerHTML  = "HOUVE ALGUM ERRO! Você digitou corretamente? Tente novamente."
+			   }
+		    };*/
+			
+			xhr.onload  = function() {
+			   var jsonResponse = JSON.parse(xhr.responseText);
+			   vue.data.json_retornado = jsonResponse;
+			};
+			
+			xhr.send(null);
+		}
+		
+		const botao = document.querySelector("#botao-enviar");
+		botao.addEventListener("click", envia_dados, false);
+		
+  </script>
+</html>
