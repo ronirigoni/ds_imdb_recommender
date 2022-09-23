@@ -8,7 +8,7 @@ def home():
 
     #if request.method == 'GET':
 
-    fidubil = request.get("fi")
+    fidubil = request.args.get("fi")
     if fidubil:
         return "Bora fiii du Billl " + fidubil
         
