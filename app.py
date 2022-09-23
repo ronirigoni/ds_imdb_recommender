@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, request
 import nltk
 
 app = Flask(__name__)
 
 @app.route("/", methods=['POST', 'GET'])
 def home():
+
+    #if request.method == 'GET':
 
     fidubil = request.get("fi")
     if fidubil:
